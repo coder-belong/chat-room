@@ -1,26 +1,24 @@
 const WebSocket = require("ws");
 
-// 创建 WebSocket 服务器，监听端口4000
-const wss = new WebSocket.Server({ port: 4000 });
+const wss = new WebSocket.Server({ port: 4001 });
 
-/**
- * 服务端要做的事情
- * 1. 监听客户端的连接
- * 2. 当有客户端消息传来时，处理并响应。
- */
+// 当有客户端连接时触发
 wss.on("connection", (ws) => {
-  console.log("客户端连接成功");
+  console.log("有新客户端连接!");
 
-  // ws.send(): 发送信息给客户端
-  ws.send("欢迎连接到 WebSocket 服务器");
-
-  // ws.on(): 监听客户端发送的消息
+  // 监听客户端发送的消息
   ws.on("message", (data) => {
     // 将接收到的data是 Buffer 数据，需要将其转换为字符串
     const receivedMessage = data.toString();
-    console.log("服务端收到消息: ", receivedMessage);
-    // 向客户端发送信息
-    ws.send(receivedMessage);
+    console.log("收到消息:", receivedMessage);
+
+    // 向所有已连接的客户端广播消息;
+    wss.clients.forEach((client) => {
+      // 确保客户端的 WebSocket 连接是打开状态
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(receivedMessage); // 发送消息给客户端
+      }
+    });
   });
 
   /**

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <title>聊天室</title>
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+
+<body>
+  <div id="chat">
+    <input type="text" id="username" placeholder="输入用户名" />
+    <button id="joinBtn">进入聊天室</button>
+    <div id="messages"></div>
+    <input type="text" id="messageInput" placeholder="输入消息" />
+    <button id="sendBtn">发送</button>
+  </div>
+
+  <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+  <script>
+    const socket = io('http://localhost:4003');
+
+    document.getElementById('joinBtn').addEventListener('click', () => {
+      const username = document.getElementById('username').value;
+      if (username.trim() !== '') {
+        socket.emit('join', username);
+        document.getElementById('username').disabled = true;
+        document.getElementById('joinBtn').disabled = true;
+        document.getElementById('messageInput').disabled = false;
+        document.getElementById('sendBtn').disabled = false;
+      }
+    });
+
+    document.getElementById('sendBtn').addEventListener('click', () => {
+      const message = document.getElementById('messageInput').value;
+      if (message.trim() !== '') {
+        socket.emit('message', message);
+        document.getElementById('messageInput').value = '';
+      }
+    });
+
+    socket.on('userJoined', (username) => {
+      const messageElement = document.createElement('div');
+      messageElement.textContent = `${username} 加入了聊天室`;
+      messageElement.classList.add('message');
+      messageElement.classList.add('other-message');
+      document.getElementById('messages').appendChild(messageElement);
+    });
+
+    socket.on('message', (data) => {
+      const messageElement = document.createElement('div');
+      messageElement.textContent = `${data.user} [${data.time}]: ${data.text}`;
+      messageElement.classList.add('message');
+      if (data.user === socket.id) {
+        messageElement.classList.add('my-message');
+      } else {
+        messageElement.classList.add('other-message');
+      }
+      document.getElementById('messages').appendChild(messageElement);
+      document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+    });
+
+    socket.on('userLeft', (username) => {
+      const messageElement = document.createElement('div');
+      messageElement.textContent = `${username} 离开了聊天室`;
+      messageElement.classList.add('message');
+      messageElement.classList.add('other-message');
+      document.getElementById('messages').appendChild(messageElement);
+    });
+  </script>
+</body>
+
+</html>
