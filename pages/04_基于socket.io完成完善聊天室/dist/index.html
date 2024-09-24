@@ -44,7 +44,7 @@
       // 获取用户名输入框的值
       const usernameVal = $('.username-input').val().trim();
       if (usernameVal) {
-        // 向服务器发送加入聊天室的事件，并携带用户名信息
+        // 向服务器发送 join 事件，并携带用户名信息
         socket.emit('join', usernameVal);
         // 隐藏登陆页面，显示聊天页面
         $('.login-wrap').addClass('hidden');
@@ -54,23 +54,35 @@
       }
     });
 
-    document.getElementById('sendBtn').addEventListener('click', () => {
-      const message = document.getElementById('messageInput').value;
-      if (message.trim() !== '') {
-        socket.emit('message', message);
-        document.getElementById('messageInput').value = '';
+    // 监听发送消息按钮的点击
+    $(".send-btn").on("click", () => {
+      const messageVal = $(".message-input").val().trim();
+      if (messageVal) {
+        // 向服务器发送 chatMessage 事件，并携带消息内容
+        socket.emit('chatMessage', messageVal);
+        // 清空输入框
+        $(".message-input").val('');
       }
-    });
+    })
 
+    // 监听服务端发送的 userJoined 事件
     socket.on('userJoined', (username) => {
-      const messageElement = document.createElement('div');
-      messageElement.textContent = `${username} 加入了聊天室`;
-      messageElement.classList.add('message');
-      messageElement.classList.add('other-message');
-      document.getElementById('messages').appendChild(messageElement);
+      const messageElement = $('<div></div>')
+        .text(`${username} 加入了聊天室`)
+        .addClass('log');
+      $('.chat-list-content').append(messageElement);
     });
 
-    socket.on('message', (data) => {
+    // 监听服务端发送的 userLeft 事件
+    socket.on('userLeft', (username) => {
+      const messageElement = $('<div></div>')
+        .text(`${username} 离开了聊天室`)
+        .addClass('log');
+      $('#messages').append(messageElement);
+    });
+
+    // 监听服务端发送的 message 事件
+    socket.on('chatMessage', (data) => {
       const messageElement = document.createElement('div');
       messageElement.textContent = `${data.user} [${data.time}]: ${data.text}`;
       messageElement.classList.add('message');
@@ -83,13 +95,7 @@
       document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
     });
 
-    socket.on('userLeft', (username) => {
-      const messageElement = document.createElement('div');
-      messageElement.textContent = `${username} 离开了聊天室`;
-      messageElement.classList.add('message');
-      messageElement.classList.add('other-message');
-      document.getElementById('messages').appendChild(messageElement);
-    });
+
   </script>
 </body>
 
