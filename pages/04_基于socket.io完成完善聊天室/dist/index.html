@@ -4,30 +4,53 @@
 <head>
   <meta charset="UTF-8">
   <title>聊天室</title>
-  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body>
-  <div id="chat">
-    <input type="text" id="username" placeholder="输入用户名" />
-    <button id="joinBtn">进入聊天室</button>
-    <div id="messages"></div>
-    <input type="text" id="messageInput" placeholder="输入消息" />
-    <button id="sendBtn">发送</button>
+
+  <div class="login-wrap">
+    <div class="content">
+      <h3 class="title">昵称</h3>
+      <input class="username-input" type="text" />
+      <div class="login-btn">进入聊天室</div>
+    </div>
   </div>
 
+  <div class="chat-wrap hidden">
+    <div class="content">
+      <div class="nav">
+        <p>今日话题 (Github：coder-belong)</p>
+        <p>今年打算跳槽吗？</p>
+      </div>
+      <div class="chat-list-content">123</div>
+      <div class="send-message-wrap">
+        <input type="text" class="message-input" placeholder="输入消息" />
+        <div class="send-btn">发送</div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
   <script>
     const socket = io('http://localhost:4003');
 
-    document.getElementById('joinBtn').addEventListener('click', () => {
-      const username = document.getElementById('username').value;
-      if (username.trim() !== '') {
-        socket.emit('join', username);
-        document.getElementById('username').disabled = true;
-        document.getElementById('joinBtn').disabled = true;
-        document.getElementById('messageInput').disabled = false;
-        document.getElementById('sendBtn').disabled = false;
+    $('.username-input').focus();
+
+    // 监听进入聊天室按钮的点击
+    $('.login-btn').on('click', () => {
+      // 获取用户名输入框的值
+      const usernameVal = $('.username-input').val().trim();
+      if (usernameVal) {
+        // 向服务器发送加入聊天室的事件，并携带用户名信息
+        socket.emit('join', usernameVal);
+        // 隐藏登陆页面，显示聊天页面
+        $('.login-wrap').addClass('hidden');
+        $('.chat-wrap').removeClass('hidden');
+        // 清空输入框
+        $('.username-input').val('');
       }
     });
 

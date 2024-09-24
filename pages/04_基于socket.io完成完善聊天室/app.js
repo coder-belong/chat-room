@@ -14,6 +14,7 @@ const io = new Server(4003, {
 const users = {};
 
 io.on("connection", (socket) => {
+  // 监听客户端的join事件
   socket.on("join", (username) => {
     users[socket.id] = username;
     io.emit("userJoined", username);
