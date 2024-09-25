@@ -82,8 +82,10 @@ socket.on("typing", (data) => {
   const { username } = data;
 
   let findSameUserTyping = false;
-  $(".chat-list-content .message-item .username").each(function () {
-    if ($(this).text() === username) {
+  const $messageItems = $(".chat-list-content .message-item");
+
+  $messageItems.each(function () {
+    if ($(this).find(".username").text() === username && $(this.find(".typing"))) {
       findSameUserTyping = true;
     }
   });
@@ -106,7 +108,7 @@ socket.on("typing", (data) => {
 socket.on("stop typing", (data) => {
   const { username } = data;
   $(".chat-list-content .message-item").each(function () {
-    if ($(this).find(".username").text() === username) {
+    if ($(this).find(".username").text() === username && $(this.find(".typing"))) {
       // 在这里添加动画效果
       $(this).fadeOut("slow", function () {
         // 在动画完成后移除元素
