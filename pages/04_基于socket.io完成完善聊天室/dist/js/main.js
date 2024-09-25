@@ -28,6 +28,17 @@ $(".send-btn").on("click", () => {
   }
 });
 
+let typingTimer; // 用于存储定时器的变量
+const typingInterval = 2000; // 假设用户停止输入后 1 秒后广播停止输入状态
+
+$(".message-input").on("input", () => {
+  clearTimeout(typingTimer);
+  socket.emit("typing");
+  typingTimer = setTimeout(() => {
+    socket.emit("stop typing"); // 向其他客户端广播停止输入
+  }, typingInterval);
+});
+
 // 监听服务端发送的 userJoined 事件
 socket.on("userJoined", (data) => {
   const { username, userNumber } = data;
@@ -65,4 +76,38 @@ socket.on("chatMessage", (data) => {
   `);
   $(".chat-list-content").append(element);
   $(".chat-list-content").scrollTop($(".chat-list-content")[0].scrollHeight);
+});
+
+socket.on("typing", (data) => {
+  const { username } = data;
+
+  let findSameUserTyping = false;
+  $(".chat-list-content .message-item .username").each(function () {
+    if ($(this).text() === username) {
+      findSameUserTyping = true;
+    }
+  });
+
+  if (!findSameUserTyping) {
+    const element = $(`
+    <div class="message-item other-message}">
+      <div class="user-info">
+        <img src="./img/avatar01.png" alt="">
+        <div class="username">${username}</div>
+      </div>
+      <span class="typing message-info">正在输入...</span>
+    </div>
+  `);
+    $(".chat-list-content").append(element);
+    $(".chat-list-content").scrollTop($(".chat-list-content")[0].scrollHeight);
+  }
+});
+
+socket.on("stop typing", (data) => {
+  const { username } = data;
+  $(".chat-list-content .message-item").each(function () {
+    if ($(this).find(".username").text() === username) {
+      $(this).remove(); // 移除正在输入的消息
+    }
+  });
 });

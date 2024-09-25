@@ -83,6 +83,16 @@
       .message-item {
         padding: 10px;
 
+        &.my-message {
+          text-align: right;
+          .user-info {
+            justify-content: flex-end;
+          }
+          .message-info {
+            background-color: #95ec69;
+          }
+        }
+
         .user-info {
           display: flex;
           align-items: center;
@@ -116,16 +126,8 @@
           padding: 6px;
         }
 
-        &.my-message {
-          text-align: right;
-
-          .user-info {
-            justify-content: flex-end;
-          }
-
-          .message-info {
-            background-color: #95ec69;
-          }
+        .typing {
+          color: #666;
         }
       }
     }

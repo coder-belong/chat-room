@@ -46,6 +46,22 @@ io.on("connection", (socket) => {
     });
   });
 
+  // 用户正在输入
+  socket.on("typing", () => {
+    // 除了当前正在输入的客户端，其他客户端都会收到 typing 事件，因为当前正在输入的客户端无需知道自己正在输入，所以仅需要广播给其他客户端
+    socket.broadcast.emit("typing", {
+      username: socket.username,
+      socketId: socket.id,
+    });
+  });
+
+  // 用户停止输入
+  socket.on("stop typing", () => {
+    socket.broadcast.emit("stop typing", {
+      username: socket.username,
+    });
+  });
+
   // 监听客户端的 disconnect 事件 --- 用户离开聊天室
   socket.on("disconnect", () => {
     io.emit("userLeft", {

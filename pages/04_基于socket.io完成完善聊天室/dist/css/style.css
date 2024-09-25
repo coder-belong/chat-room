@@ -74,6 +74,15 @@
 .chat-wrap .content .chat-list-content .message-item {
   padding: 10px;
 }
+.chat-wrap .content .chat-list-content .message-item.my-message {
+  text-align: right;
+}
+.chat-wrap .content .chat-list-content .message-item.my-message .user-info {
+  justify-content: flex-end;
+}
+.chat-wrap .content .chat-list-content .message-item.my-message .message-info {
+  background-color: #95ec69;
+}
 .chat-wrap .content .chat-list-content .message-item .user-info {
   display: flex;
   align-items: center;
@@ -102,14 +111,8 @@
   border-radius: 6px;
   padding: 6px;
 }
-.chat-wrap .content .chat-list-content .message-item.my-message {
-  text-align: right;
-}
-.chat-wrap .content .chat-list-content .message-item.my-message .user-info {
-  justify-content: flex-end;
-}
-.chat-wrap .content .chat-list-content .message-item.my-message .message-info {
-  background-color: #95ec69;
+.chat-wrap .content .chat-list-content .message-item .typing {
+  color: #666;
 }
 .chat-wrap .content .send-message-wrap {
   position: fixed;
