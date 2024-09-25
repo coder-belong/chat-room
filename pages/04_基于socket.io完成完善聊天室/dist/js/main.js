@@ -29,7 +29,7 @@ $(".send-btn").on("click", () => {
 });
 
 let typingTimer; // 用于存储定时器的变量
-const typingInterval = 2000; // 假设用户停止输入后 1 秒后广播停止输入状态
+const typingInterval = 1000; // 假设用户停止输入后 1 秒后广播停止输入状态
 
 $(".message-input").on("input", () => {
   clearTimeout(typingTimer);
@@ -107,7 +107,11 @@ socket.on("stop typing", (data) => {
   const { username } = data;
   $(".chat-list-content .message-item").each(function () {
     if ($(this).find(".username").text() === username) {
-      $(this).remove(); // 移除正在输入的消息
+      // 在这里添加动画效果
+      $(this).fadeOut("slow", function () {
+        // 在动画完成后移除元素
+        $(this).remove();
+      });
     }
   });
 });
