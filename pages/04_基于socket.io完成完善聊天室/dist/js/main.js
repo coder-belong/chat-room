@@ -1,7 +1,5 @@
 const socket = io("http://localhost:4003");
 
-const a = "111";
-
 $(".username-input").focus();
 
 // 监听进入聊天室按钮的点击
@@ -47,13 +45,13 @@ socket.on("chatMessage", (data) => {
   const chatListContentElement = $("<div></div>")
     .addClass("message-item")
     .addClass(socket.id === data.socketId ? "my-message" : "other-message").append(`
-<div class="user-info">
-  <img src="./img/avatar01.png" alt="">
-  <div class="username">${data.username}</div>
-  <div class="time">${data.time}</div>
-</div>
-<span class="message-info">${data.text}</span>
+      <div class="user-info">
+        <img src="./img/avatar01.png" alt="">
+        <div class="username">${data.username}</div>
+        <div class="time">${data.time}</div>
+      </div>
+      <span class="message-info">${data.text}</span>
 `);
-  $(".chat-list-content").append(messageElement);
+  $(".chat-list-content").append(chatListContentElement);
   $(".chat-list-content").scrollTop($(".chat-list-content")[0].scrollHeight);
 });

@@ -1,60 +1,60 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>聊天室</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <title>聊天室</title>
-  <link rel="stylesheet" href="./css/style.css">
-</head>
-
-<body>
-
-  <div class="login-wrap">
-    <div class="content">
-      <h3 class="title">昵称</h3>
-      <input class="username-input" type="text" />
-      <div class="login-btn">进入聊天室</div>
-    </div>
-  </div>
-
-  <div class="chat-wrap hidden">
-    <div class="content">
-      <div class="nav">
-        <p>今日话题 (Github：coder-belong)</p>
-        <p>今年打算跳槽吗？</p>
-      </div>
-      <div class="chat-list-content">
-        <div class="log">belong 加入了聊天室</div>
-        <div class="log">belong 离开了聊天室</div>
-        <div class="log">当前在线人数 2人</div>
-        <div class="message-item my-message">
-          <div class="user-info">
-            <img src="./img/avatar01.png" alt="">
-            <div class="username">beong</div>
-            <div class="time">13:47:56</div>
-          </div>
-          <span class="message-info">这是我发送的消息哈</span>
-        </div>
-
-        <div class="message-item other-message">
-          <div class="user-info">
-            <img src="./img/avatar01.png" alt="">
-            <div class="username">beong</div>
-            <div class="time">13:47:56</div>
-          </div>
-          <span class="message-info">这是我发送的消息哈</span>
-        </div>
-      </div>
-      <div class="send-message-wrap">
-        <input type="text" class="message-input" placeholder="输入消息" />
-        <div class="send-btn">发送</div>
+  <body>
+    <div class="login-wrap">
+      <div class="content">
+        <h3 class="title">昵称</h3>
+        <input class="username-input" type="text" />
+        <div class="login-btn">进入聊天室</div>
       </div>
     </div>
-  </div>
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
-  <script src="./js/main.js"></script>
-</body>
+    <div class="chat-wrap hidden">
+      <div class="content">
+        <div class="nav">
+          <p>今日话题 (Github：coder-belong)</p>
+          <p>今年打算跳槽吗？</p>
+        </div>
+        <div class="chat-list-content">
+          <!-- 模拟聊天记录数据 -->
+          <div style="display: none">
+            <div class="log">belong 加入了聊天室</div>
+            <div class="log">belong 离开了聊天室</div>
+            <div class="log">当前在线人数 2人</div>
+            <div class="message-item my-message">
+              <div class="user-info">
+                <img src="./img/avatar01.png" alt="" />
+                <div class="username">beong</div>
+                <div class="time">13:47:56</div>
+              </div>
+              <span class="message-info">这是我发送的消息哈</span>
+            </div>
 
+            <div class="message-item other-message">
+              <div class="user-info">
+                <img src="./img/avatar01.png" alt="" />
+                <div class="username">beong</div>
+                <div class="time">13:47:56</div>
+              </div>
+              <span class="message-info">这是我发送的消息哈</span>
+            </div>
+          </div>
+        </div>
+        <div class="send-message-wrap">
+          <input type="text" class="message-input" placeholder="输入消息" />
+          <div class="send-btn">发送</div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script src="./js/main.js"></script>
+  </body>
 </html>
