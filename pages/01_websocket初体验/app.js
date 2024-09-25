@@ -1,4 +1,4 @@
-const WebSocket = require("ws");
+import WebSocket from "ws";
 
 // 创建 WebSocket 服务器，监听端口4000
 const wss = new WebSocket.Server({ port: 4000 });

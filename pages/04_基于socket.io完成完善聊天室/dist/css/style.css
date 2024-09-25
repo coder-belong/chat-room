@@ -61,14 +61,55 @@
 }
 .chat-wrap .content .chat-list-content {
   margin-top: 100px;
-  height: 76vh;
+  height: 70vh;
   overflow-y: scroll;
   padding: 20px;
+  background-color: #f2f2f2;
 }
 .chat-wrap .content .chat-list-content .log {
   color: gray;
   margin: 5px;
   text-align: center;
+}
+.chat-wrap .content .chat-list-content .message-item {
+  padding: 10px;
+}
+.chat-wrap .content .chat-list-content .message-item .user-info {
+  display: flex;
+  align-items: center;
+}
+.chat-wrap .content .chat-list-content .message-item .user-info img {
+  width: 24px;
+}
+.chat-wrap .content .chat-list-content .message-item .user-info .username {
+  font-weight: bold;
+  color: #337ab7;
+  margin: 0 6px;
+}
+.chat-wrap .content .chat-list-content .message-item .user-info .time {
+  background-color: #dadada;
+  padding: 1px 4px;
+  border-radius: 4px;
+  color: white;
+  font-size: 12px;
+}
+.chat-wrap .content .chat-list-content .message-item .message-info {
+  display: inline-block;
+  font-size: 14px;
+  color: #333;
+  margin-top: 5px;
+  background-color: #ffffff;
+  border-radius: 6px;
+  padding: 6px;
+}
+.chat-wrap .content .chat-list-content .message-item.my-message {
+  text-align: right;
+}
+.chat-wrap .content .chat-list-content .message-item.my-message .user-info {
+  justify-content: flex-end;
+}
+.chat-wrap .content .chat-list-content .message-item.my-message .message-info {
+  background-color: #95ec69;
 }
 .chat-wrap .content .send-message-wrap {
   position: fixed;
