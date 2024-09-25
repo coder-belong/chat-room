@@ -19,18 +19,24 @@ const io = new Server(4003, {
  */
 
 io.on("connection", (socket) => {
-  console.log(socket.id);
+  // console.log(socket.id);
 
   // 监听客户端的 join 事件 --- 用户进入聊天室
   socket.on("join", (username) => {
     // 将用户名存储在当前连接的 socket 对象上
     socket.username = username;
-    // 发送 userJoined 事件给所有客户端，并携带用户名信息
-    io.emit("userJoined", username);
+    // 发送 userJoined 事件给所有客户端，并携带响应数据给所有客户端
+    console.log("userNumber:", io.sockets.sockets);
+    io.emit("userJoined", {
+      username,
+      userNumber: io.sockets.sockets.size, // 当前连接的客户端数量
+    });
   });
 
   // 监听客户端发送的 chatMessage 事件 --- 用户发送消息
   socket.on("chatMessage", (message) => {
+    // console.log("test:", io.engine);
+    console.log("test:", io.sockets.sockets.size);
     // 携带响应数据数据发送 chatMessage 事件给所有客户端
     io.emit("chatMessage", {
       socketId: socket.id,
@@ -42,7 +48,10 @@ io.on("connection", (socket) => {
 
   // 监听客户端的 disconnect 事件 --- 用户离开聊天室
   socket.on("disconnect", () => {
-    io.emit("userLeft", socket.username);
+    io.emit("userLeft", {
+      username: socket.username,
+      userNumber: io.sockets.sockets.size, // 当前连接的客户端数量
+    });
     delete socket.username;
   });
 });

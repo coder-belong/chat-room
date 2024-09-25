@@ -29,29 +29,40 @@ $(".send-btn").on("click", () => {
 });
 
 // 监听服务端发送的 userJoined 事件
-socket.on("userJoined", (username) => {
-  const messageElement = $("<div></div>").text(`${username} 加入了聊天室`).addClass("log");
-  $(".chat-list-content").append(messageElement);
+socket.on("userJoined", (data) => {
+  const { username, userNumber } = data;
+  const element = $(
+    `
+      <div class='log'>${username} 加入了聊天室</div>
+      <div class="log">当前在线人数 ${userNumber}人</div >
+    `,
+  );
+  $(".chat-list-content").append(element);
 });
 
 // 监听服务端发送的 userLeft 事件
-socket.on("userLeft", (username) => {
-  const messageElement = $("<div></div>").text(`${username} 离开了聊天室`).addClass("log");
-  $(".chat-list-content").append(messageElement);
+socket.on("userLeft", (data) => {
+  const { username, userNumber } = data;
+  const element = $(`
+      <div class='log'>${username} 离开了聊天室</div>
+      <div class="log">当前在线人数 ${userNumber}人</div >
+    `);
+  $(".chat-list-content").append(element);
 });
 
 // 监听服务端发送的 message 事件
 socket.on("chatMessage", (data) => {
-  const chatListContentElement = $("<div></div>")
-    .addClass("message-item")
-    .addClass(socket.id === data.socketId ? "my-message" : "other-message").append(`
+  const { username, text, time, socketId } = data;
+  const element = $(`
+    <div class="message-item ${socket.id === socketId ? "my-message" : "other-message"}">
       <div class="user-info">
         <img src="./img/avatar01.png" alt="">
-        <div class="username">${data.username}</div>
-        <div class="time">${data.time}</div>
+        <div class="username">${username}</div>
+        <div class="time">${time}</div>
       </div>
-      <span class="message-info">${data.text}</span>
-`);
-  $(".chat-list-content").append(chatListContentElement);
+      <span class="message-info">${text}</span>
+    </div>
+  `);
+  $(".chat-list-content").append(element);
   $(".chat-list-content").scrollTop($(".chat-list-content")[0].scrollHeight);
 });
