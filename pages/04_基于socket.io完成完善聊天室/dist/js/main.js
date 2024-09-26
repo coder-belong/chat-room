@@ -4,8 +4,22 @@ let socket = null;
 $(".username-input").focus();
 
 const handleSocketOn = () => {
+  // 监听服务器发送的 usernameConflict 事件
+  socket.on("usernameConflict", (data) => {
+    // 显示用户名冲突提示
+    alert(data.message);
+    // 自动清空用户名输入框，提示用户重新输入
+    $(".username-input").val("").focus();
+  });
+
   // 监听服务端发送的 userJoined 事件
   socket.on("userJoined", (data) => {
+    // 隐藏登陆页面，显示聊天页面
+    $(".login-wrap").addClass("hidden");
+    $(".chat-wrap").removeClass("hidden");
+    // 清空输入框
+    $(".username-input").val("");
+
     const { username, userNumber } = data;
     const element = $(
       `
@@ -86,7 +100,7 @@ const handleSocketOn = () => {
 
 // 监听进入聊天室按钮的点击
 $(".login-btn").on("click", () => {
-  // 仅当用户点击进入聊天室按钮后，
+  // 仅当用户点击进入聊天室按钮后，才创建socket连接
   socket = io("http://localhost:4003");
   handleSocketOn();
   // 获取用户名输入框的值
@@ -94,11 +108,6 @@ $(".login-btn").on("click", () => {
   if (usernameVal) {
     // 向服务器发送 join 事件，并携带用户名信息
     socket.emit("join", usernameVal);
-    // 隐藏登陆页面，显示聊天页面
-    $(".login-wrap").addClass("hidden");
-    $(".chat-wrap").removeClass("hidden");
-    // 清空输入框
-    $(".username-input").val("");
   }
 });
 

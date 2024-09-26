@@ -18,21 +18,32 @@ const io = new Server(4003, {
  * 客户端的 socket.id 和服务端的 socket.id 是相同的。每个连接都会生成一个唯一的 socket.id，并在客户端和服务器之间保持一致。你可以在客户端通过 socket.id 访问它，并在服务器上使用 socket.id 来识别和管理特定的连接。
  */
 
+let usersInChat = [];
+
 io.on("connection", (socket) => {
   console.log("有新客户端连接!");
   // console.log(socket.id);
 
   // 监听客户端的 join 事件 --- 用户进入聊天室
   socket.on("join", (username) => {
-    // 将用户名存储在当前连接的 socket 对象上
-    socket.username = username;
-    // 发送 userJoined 事件给所有客户端，并携带响应数据给所有客户端
-    console.log("userNumber:", io.sockets.sockets.size);
+    // 检查用户名是否已存在
+    if (Array.from(io.sockets.sockets.values()).some((socket) => socket.username === username)) {
+      // 发送用户名冲突事件给客户端
+      socket.emit("usernameConflict", { message: "该用户名已存在，请更换用户名后再加入。" });
+    } else {
+      // 将用户名存储在当前连接的 socket 对象上
+      socket.username = username;
+      // 发送 userJoined 事件给所有客户端，并携带响应数据给所有客户端
+      // console.log("userNumber:", io.sockets.sockets.size);
 
-    io.emit("userJoined", {
-      username,
-      userNumber: io.sockets.sockets.size, // 当前连接的客户端数量
-    });
+      usersInChat.push(username);
+      io.emit("userJoined", {
+        username,
+        // io.sockets.sockets.size 获取的确实是当前所有连接到服务器的 socket 数量，而不仅仅是进入聊天室的用户数量
+        // userNumber: io.sockets.sockets.size, // 当前连接的客户端数量
+        userNumber: usersInChat.length,
+      });
+    }
   });
 
   // 监听客户端发送的 chatMessage 事件 --- 用户发送消息
@@ -65,9 +76,14 @@ io.on("connection", (socket) => {
 
   // 监听客户端的 disconnect 事件 --- 用户离开聊天室
   socket.on("disconnect", () => {
+    console.log("有客户端断开连接!");
+    // 从用户列表中移除断开连接的用户
+    usersInChat = usersInChat.filter((user) => user !== socket.username);
+
     io.emit("userLeft", {
       username: socket.username,
-      userNumber: io.sockets.sockets.size, // 当前连接的客户端数量
+      // userNumber: io.sockets.sockets.size, // 当前连接的客户端数量
+      userNumber: usersInChat.length,
     });
     delete socket.username;
   });
