@@ -19,6 +19,7 @@ const io = new Server(4003, {
  */
 
 io.on("connection", (socket) => {
+  console.log("有新客户端连接!");
   // console.log(socket.id);
 
   // 监听客户端的 join 事件 --- 用户进入聊天室
@@ -26,7 +27,8 @@ io.on("connection", (socket) => {
     // 将用户名存储在当前连接的 socket 对象上
     socket.username = username;
     // 发送 userJoined 事件给所有客户端，并携带响应数据给所有客户端
-    console.log("userNumber:", io.sockets.sockets);
+    console.log("userNumber:", io.sockets.sockets.size);
+
     io.emit("userJoined", {
       username,
       userNumber: io.sockets.sockets.size, // 当前连接的客户端数量
@@ -36,7 +38,6 @@ io.on("connection", (socket) => {
   // 监听客户端发送的 chatMessage 事件 --- 用户发送消息
   socket.on("chatMessage", (message) => {
     // console.log("test:", io.engine);
-    console.log("test:", io.sockets.sockets.size);
     // 携带响应数据数据发送 chatMessage 事件给所有客户端
     io.emit("chatMessage", {
       socketId: socket.id,
