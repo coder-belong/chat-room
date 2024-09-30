@@ -28,14 +28,15 @@ io.on("connection", (socket) => {
   socket.on("join", (username) => {
     // 检查用户名是否已存在
     if (Array.from(io.sockets.sockets.values()).some((socket) => socket.username === username)) {
+      console.log("用户名已存在");
       // 发送用户名冲突事件给客户端
       socket.emit("usernameConflict", { message: "该用户名已存在，请更换用户名后再加入。" });
     } else {
+      console.log("用户名不存在，可以使用");
       // 将用户名存储在当前连接的 socket 对象上
       socket.username = username;
       // 发送 userJoined 事件给所有客户端，并携带响应数据给所有客户端
       // console.log("userNumber:", io.sockets.sockets.size);
-
       usersInChat.push(username);
       io.emit("userJoined", {
         username,
