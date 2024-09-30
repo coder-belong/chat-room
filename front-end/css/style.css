@@ -5,7 +5,7 @@
 .hidden {
   display: none !important;
 }
-.login-wrap {
+.login-page {
   background-color: black;
   width: 100vw;
   height: 100vh;
@@ -14,16 +14,16 @@
   align-items: center;
   justify-content: center;
 }
-.login-wrap .content {
+.login-page .content {
   position: relative;
   top: -50px;
   text-align: center;
 }
-.login-wrap .content .title {
+.login-page .content .title {
   font-size: 24px;
   color: #9e9b9b;
 }
-.login-wrap .content .username-input {
+.login-page .content .username-input {
   color: white;
   margin: 42px 0;
   width: 400px;
@@ -36,7 +36,7 @@
   outline: none;
   letter-spacing: 3px;
 }
-.login-wrap .content .login-btn {
+.login-page .content .login-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -48,7 +48,7 @@
   border-radius: 50px;
   cursor: pointer;
 }
-.chat-wrap .content .nav {
+.chat-page header {
   color: white;
   position: fixed;
   top: 0;
@@ -56,53 +56,53 @@
   height: 90px;
   background: #000;
 }
-.chat-wrap .content .nav p {
+.chat-page header p {
   margin: 16px;
 }
-.chat-wrap .content .chat-list-content {
+.chat-page .message-wrap {
   margin-top: 100px;
   height: 70vh;
   overflow-y: scroll;
   padding: 20px;
   background-color: #f2f2f2;
 }
-.chat-wrap .content .chat-list-content .log {
+.chat-page .message-wrap .log {
   color: gray;
   margin: 5px;
   text-align: center;
 }
-.chat-wrap .content .chat-list-content .message-item {
+.chat-page .message-wrap .message-item {
   padding: 10px;
 }
-.chat-wrap .content .chat-list-content .message-item.my-message {
+.chat-page .message-wrap .message-item.my-message {
   text-align: right;
 }
-.chat-wrap .content .chat-list-content .message-item.my-message .user-info {
+.chat-page .message-wrap .message-item.my-message .user-info {
   justify-content: flex-end;
 }
-.chat-wrap .content .chat-list-content .message-item.my-message .message-info {
+.chat-page .message-wrap .message-item.my-message .message-info {
   background-color: #95ec69;
 }
-.chat-wrap .content .chat-list-content .message-item .user-info {
+.chat-page .message-wrap .message-item .user-info {
   display: flex;
   align-items: center;
 }
-.chat-wrap .content .chat-list-content .message-item .user-info img {
+.chat-page .message-wrap .message-item .user-info img {
   width: 24px;
 }
-.chat-wrap .content .chat-list-content .message-item .user-info .username {
+.chat-page .message-wrap .message-item .user-info .username {
   font-weight: bold;
   color: #337ab7;
   margin: 0 6px;
 }
-.chat-wrap .content .chat-list-content .message-item .user-info .time {
+.chat-page .message-wrap .message-item .user-info .time {
   background-color: #dadada;
   padding: 1px 4px;
   border-radius: 4px;
   color: white;
   font-size: 12px;
 }
-.chat-wrap .content .chat-list-content .message-item .message-info {
+.chat-page .message-wrap .message-item .message-info {
   display: inline-block;
   font-size: 14px;
   color: #333;
@@ -111,24 +111,24 @@
   border-radius: 6px;
   padding: 6px;
 }
-.chat-wrap .content .chat-list-content .message-item .typing {
+.chat-page .message-wrap .message-item .typing {
   color: #666;
 }
-.chat-wrap .content .send-message-wrap {
+.chat-page #form {
   position: fixed;
   bottom: 20px;
   display: flex;
   width: 100vw;
   height: 60px;
 }
-.chat-wrap .content .send-message-wrap .message-input {
+.chat-page #form .message-input {
   flex: 0.7;
   width: 60px;
   padding: 10px;
   outline: none;
   font-size: 16px;
 }
-.chat-wrap .content .send-message-wrap .send-btn {
+.chat-page #form .send-btn {
   display: flex;
   align-items: center;
   justify-content: center;

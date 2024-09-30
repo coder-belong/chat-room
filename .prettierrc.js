@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   tabWidth: 2, // 缩进的空格数量
   printWidth: 120, // 换行字符，当代码字符达到多少时换行，80 / 120是官方推荐
   semi: true, // 是否在代码块结尾加上分号

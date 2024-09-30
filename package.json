@@ -1,20 +1,14 @@
 {
   "name": "study_websocket",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "type": "module",
+  "license": "MIT",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon app.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "express": "^4.21.0",
-    "lodash": "^4.17.21",
-    "socket.io": "^4.8.0",
-    "ws": "^8.18.0"
+    "socket.io": "^4.8.0"
   },
   "devDependencies": {
     "prettier": "^3.3.3"
