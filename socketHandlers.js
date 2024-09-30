@@ -11,9 +11,9 @@ export const addUser = ({ socket, io, chatUserList, data }) => {
 };
 
 export const sendMessage = ({ socket, io, data }) => {
-  const { message, username } = data;
+  const { message } = data;
   io.emit("chatMessage", {
-    senderName: username,
+    socketId: socket.id,
     username: socket.username,
     message,
     time: new Date().toLocaleTimeString(),

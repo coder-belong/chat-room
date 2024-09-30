@@ -43,9 +43,9 @@ export const initSocketEvents = (socket) => {
 
   // 监听服务端发送的 message 事件
   socket.on("chatMessage", (data) => {
-    const { username, message, time, senderName } = data;
+    const { username, message, time, socketId } = data;
     const element = $(`
-    <div class="message-item ${username === senderName ? "my-message" : "other-message"}">
+    <div class="message-item ${socket.id === socketId ? "my-message" : "other-message"}">
       <div class="user-info">
         <img src="./img/avatar01.png" alt="">
         <div class="username">${username}</div>

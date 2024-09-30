@@ -15,7 +15,7 @@ export const initUIEvents = (socket) => {
     e.preventDefault();
     const messageVal = $(".message-input").val().trim();
     if (messageVal) {
-      socket.emit("chatMessage", { message: messageVal, username });
+      socket.emit("chatMessage", { message: messageVal });
       $(".message-input").val("");
     }
   });
