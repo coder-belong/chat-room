@@ -4,7 +4,6 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "build": "nodemon app.js",
     "start": "nodemon app.js"
   },
   "dependencies": {
