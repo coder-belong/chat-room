@@ -7,12 +7,15 @@ export const addUser = ({ socket, io, chatUserList, data }) => {
   }
   socket.username = username;
   chatUserList.push(username);
-  io.emit("userJoined", { username, userNumber: chatUserList.length });
+  // 将用户加入一个聊天室房间
+  socket.join("chatRoom");
+  // 向 charRoom 房间的客户端发送 userJoined 事件
+  io.to("chatRoom").emit("userJoined", { username, userNumber: chatUserList.length, socketId: socket.id });
 };
 
 export const sendMessage = ({ socket, io, data }) => {
   const { message } = data;
-  io.emit("chatMessage", {
+  io.to("chatRoom").emit("chatMessage", {
     socketId: socket.id,
     username: socket.username,
     message,
@@ -27,7 +30,7 @@ export const removeUser = ({ socket, io, chatUserList }) => {
     chatUserList.splice(index, 1);
   }
 
-  io.emit("userLeft", {
+  io.to("chatRoom").emit("userLeft", {
     username: socket.username,
     userNumber: chatUserList.length,
   });
@@ -35,15 +38,15 @@ export const removeUser = ({ socket, io, chatUserList }) => {
 };
 
 // 非核心功能
-export const typing = ({ socket }) => {
-  socket.broadcast.emit("typing", {
+export const typing = ({ io, socket }) => {
+  io.to("chatRoom").emit("typing", {
     username: socket.username,
     socketId: socket.id,
   });
 };
 
-export const stopTyping = ({ socket }) => {
-  socket.broadcast.emit("stop typing", {
+export const stopTyping = ({ io, socket }) => {
+  io.to("chatRoom").emit("stop typing", {
     username: socket.username,
   });
 };

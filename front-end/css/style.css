@@ -5,6 +5,13 @@
 .hidden {
   display: none !important;
 }
+button {
+  border: none;
+}
+input {
+  outline: none;
+  border: none;
+}
 .login-page {
   background-color: black;
   width: 100vw;

@@ -9,25 +9,18 @@ export const initSocketEvents = (socket) => {
 
   // 监听服务端发送的 userJoined 事件
   socket.on("userJoined", (data) => {
-    // 当用户名已存在时，在改名后点击进入聊天室，会触发 userJoined 事件两次，为什么啊
-    // console.log("触发了 userJoined 事件");
-
-    const { username, userNumber } = data;
-    console.log(username);
-    console.log(socket.name);
-
-    // 隐藏登陆页面，显示聊天页面
-    $(".login-page").addClass("hidden");
-    $(".chat-page").removeClass("hidden");
-    // 清空输入框
-    $(".username-input").val("");
-
-    const element = $(
-      `
+    const { username, userNumber, socketId } = data;
+    if (socket.id === socketId) {
+      // 隐藏登陆页面，显示聊天页面
+      $(".login-page").addClass("hidden");
+      $(".chat-page").removeClass("hidden");
+      // 清空输入框
+      $(".username-input").val("");
+    }
+    const element = $(`
       <div class='log'>${username} 加入了聊天室</div>
       <div class="log">当前在线人数 ${userNumber}人</div >
-    `,
-    );
+    `);
     $(".message-wrap").append(element);
   });
 
@@ -60,18 +53,14 @@ export const initSocketEvents = (socket) => {
 
   // 非核心功能
   socket.on("typing", (data) => {
-    const { username } = data;
+    console.log("typing");
+    const { username, socketId } = data;
 
-    let findSameUserTyping = false;
-    const $messageItems = $(".message-wrap .message-item");
-
-    $messageItems.each(function () {
-      if ($(this).find(".username").text() === username && $(this.find(".typing"))) {
-        findSameUserTyping = true;
-      }
-    });
-
-    if (!findSameUserTyping) {
+    // 检查当前用户的 "正在输入..." 提示是否已经存在
+    const existingTypingMessage = $(`.message-wrap .message-item .username:contains(${username})`)
+      .closest(".message-item")
+      .find(".typing");
+    if (socket.id !== socketId && !existingTypingMessage.length) {
       const element = $(`
       <div class="message-item other-message}">
         <div class="user-info">
@@ -87,16 +76,15 @@ export const initSocketEvents = (socket) => {
   });
 
   socket.on("stop typing", (data) => {
+    console.log("stop typing");
     const { username } = data;
-    console.log(username);
-    $(".message-wrap .message-item").each(function () {
-      if ($(this).find(".username").text() === username && $(this.find(".typing"))) {
-        // 在这里添加动画效果
-        $(this).fadeOut("slow", function () {
-          // 在动画完成后移除元素
-          $(this).remove();
-        });
-      }
-    });
+    // 查找符合条件的元素并添加动画效果
+    $(".message-wrap .message-item")
+      .filter(function () {
+        return $(this).find(".username").text() === username && $(this).find(".typing").length > 0;
+      })
+      .fadeOut("slow", function () {
+        $(this).remove(); // 在动画完成后移除元素
+      });
   });
 };

@@ -21,8 +21,8 @@ io.on("connection", (socket) => {
   socket.on("chatMessage", (data) => sendMessage({ ...context, data }));
   socket.on("disconnect", () => removeUser(context));
 
-  // socket.on("typing", () => typing(context));
-  // socket.on("stop typing", () => stopTyping(context));
+  socket.on("typing", () => typing(context));
+  socket.on("stop typing", () => stopTyping(context));
 });
 
 // 启动服务器
