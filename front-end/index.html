@@ -50,8 +50,24 @@
         <input type="text" class="message-input" placeholder="输入消息" />
         <button type="submit" class="send-btn">发送</button>
       </form>
+
+      <div class="share-file-btn">共享文件</div>
+      <div class="share-file-wrap hidden">
+        <div class="header">
+          <div class="close">关闭</div>
+          <div class="title">文件列表</div>
+          <div class="upload-btn">上传文件</div>
+          <input type="file" id="file" style="display: none" />
+        </div>
+        <div class="file-list">
+          <!-- <a href="#" class="item" download="asda.png">asda.png</a>
+          <a href="#" class="item" download="asda.png">asda.png</a>
+          <a href="#" class="item" download="asda.png">asda.png</a> -->
+        </div>
+      </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
     <script src="./js/main.js" type="module"></script>

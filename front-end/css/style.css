@@ -55,6 +55,9 @@ input {
   border-radius: 50px;
   cursor: pointer;
 }
+.chat-page {
+  position: relative;
+}
 .chat-page header {
   color: white;
   position: fixed;
@@ -143,4 +146,49 @@ input {
   cursor: pointer;
   background-color: #ffc925;
   color: white;
+}
+.chat-page .share-file-btn {
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #3f99f7;
+  color: white;
+  cursor: pointer;
+}
+.chat-page .share-file-wrap {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 9999;
+  background-color: white;
+  height: 70vh;
+  width: 20vw;
+  padding: 10px;
+  border-radius: 10px;
+}
+.chat-page .share-file-wrap .header {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.chat-page .share-file-wrap .header .close {
+  width: 100%;
+  text-align: right;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+.chat-page .share-file-wrap .header .upload-btn {
+  background-color: #3f99f7;
+  border-radius: 4px;
+  padding: 6px;
+  cursor: pointer;
+  color: white;
+}
+.chat-page .share-file-wrap .file-list .item {
+  display: block;
+  padding: 10px;
+  border-bottom: 1px solid #cdcbcb;
 }
